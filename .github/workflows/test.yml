@@ -58,10 +58,6 @@ jobs:
           echo "Using TunnelName ${TUNNEL_NAME}"
           echo "SC_TUNNEL_NAME=${TUNNEL_NAME}" >> $GITHUB_ENV
 
-      - name: Test Service
-        run: |
-          curl -s http://127.0.0.1:8080/data | jq
-
       - name: Saucectl RUN
         uses: saucelabs/saucectl-run-action@v1
         env:
@@ -71,3 +67,7 @@ jobs:
           sauce-access-key: ${{ secrets.SAUCE_ACCESS_KEY }}
           select-suite: 'Local Suite #1'
           tunnel-id: ${{ env.SC_TUNNEL_NAME }}
+
+      - name: Test Service
+        run: |
+          curl -s http://127.0.0.1:8080/data | jq
