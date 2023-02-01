@@ -63,7 +63,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          username: ${{ secrets.SAUCE_USERNAME }}
-          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          sauce-username: ${{ secrets.SAUCE_USERNAME }}
+          sauce-access-key: ${{ secrets.SAUCE_ACCESS_KEY }}
           select-suite: 'Local Suite #1'
-          tunnel-name: ${{ env.SC_TUNNEL_ID }}
+          tunnel-id: ${{ env.SC_TUNNEL_ID }}
