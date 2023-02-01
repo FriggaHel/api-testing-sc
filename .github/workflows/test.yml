@@ -54,7 +54,7 @@ jobs:
             echo "Waiting for sauce-connect"
             sleep 5
           done
-          export TUNNEL_ID=`jq < sc.ready -r .tunnelID`
+          export TUNNEL_ID=`jq < /tmp/sc.ready -r .tunnelID`
           echo "Using TunnelID ${TUNNEL_ID}"
           echo "SC_TUNNEL_ID=${TUNNEL_ID}" >> $GITHUB_ENV
 
