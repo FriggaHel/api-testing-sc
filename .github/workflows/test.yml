@@ -49,20 +49,21 @@ jobs:
         run: |
           curl https://saucelabs.com/downloads/sc-4.8.2-linux.tar.gz > /tmp/sc.tar.gz
           tar -xv --strip-components 2 -f /tmp/sc.tar.gz sc-4.8.2-linux/bin/sc
-          ./sc --region eu-central --vm-version v2alpha --readyfile /tmp/sc.ready --tunnel-name sc-github-frigga-${RANDOM} &
+          ./sc --region eu-central --vm-version v2alpha --readyfile /tmp/sc.ready --pidfile /tmp/sc.pid --tunnel-name sc-github-frigga-${RANDOM} &
           while [ ! -f /tmp/sc.ready ]; do
             echo "Waiting for sauce-connect"
             sleep 5
           done
           export TUNNEL_NAME=`jq < /tmp/sc.ready -r .tunnelName`
-          echo "Using TunnelName ${TUNNEL_NAME}"
+          export TUNNEL_PID=`cat /tmp/sc.pid`
+          echo "Using TunnelName ${TUNNEL_NAME} (pid:${TUNNEL_PID})"
           echo "SC_TUNNEL_NAME=${TUNNEL_NAME}" >> $GITHUB_ENV
+          echo "SC_PID=${TUNNEL_PID}" >> $GITHUB_ENV
 
-
+      ## For some reasons we need to wait for API Testing to be able to pick it up
       - name: Await
         run: |
-          sleep 60
-
+          sleep 30
 
       - name: Saucectl RUN
         uses: saucelabs/saucectl-run-action@v1
@@ -74,6 +75,10 @@ jobs:
           select-suite: 'Local Suite #1'
           tunnel-id: ${{ env.SC_TUNNEL_NAME }}
 
-      - name: Test Service
+      - name: Stop SC
         run: |
-          curl -s http://127.0.0.1:8080/data | jq
+          kill -INT ${{ env.SC_PID }}
+          while [ -f /proc/${{SC_PID}}/status ];do
+            echo "Waiting for sc to finish"
+            sleep 5
+          done
