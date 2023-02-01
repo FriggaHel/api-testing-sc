@@ -54,9 +54,9 @@ jobs:
             echo "Waiting for sauce-connect"
             sleep 5
           done
-          export TUNNEL_ID=`jq < /tmp/sc.ready -r .tunnelID`
-          echo "Using TunnelID ${TUNNEL_ID}"
-          echo "SC_TUNNEL_ID=${TUNNEL_ID}" >> $GITHUB_ENV
+          export TUNNEL_NAME=`jq < /tmp/sc.ready -r .tunnelName`
+          echo "Using TunnelName ${TUNNEL_NAME}"
+          echo "SC_TUNNEL_NAME=${TUNNEL_NAME}" >> $GITHUB_ENV
 
       - name: Test Service
         run: |
@@ -70,4 +70,4 @@ jobs:
           sauce-username: ${{ secrets.SAUCE_USERNAME }}
           sauce-access-key: ${{ secrets.SAUCE_ACCESS_KEY }}
           select-suite: 'Local Suite #1'
-          tunnel-id: e0fd0596d86542d5b7fa7228192b4c36
+          tunnel-id: ${{ env.SC_TUNNEL_NAME }}
