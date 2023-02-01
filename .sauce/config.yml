@@ -1,0 +1,15 @@
+apiVersion: v1alpha
+kind: apitest
+sauce:
+  region: eu-central-1
+  metadata:
+    build: "api-testing-sc"
+
+rootDir: tests/
+
+suites:
+  - name: "Local Suite #1"
+    hookId: 0b440e8b-126c-4485-ad6a-a245e0db68ed
+    testMatch:
+      - 00 Local Request
+
