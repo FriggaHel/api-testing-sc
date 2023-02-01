@@ -20,7 +20,7 @@ jobs:
           node-version: 16
       - run: npm install
       - run: npx ts-node src/index.ts &
-      - uses: saucelabs/sauce-connect-action@19e7da5
+      - uses: saucelabs/sauce-connect-action@19e7da586ec673bab89e84b00c557af69c5a5580
         with:
             username: ${{ secrets.SAUCE_USERNAME }}
             accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
