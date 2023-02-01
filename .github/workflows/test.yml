@@ -20,7 +20,7 @@ jobs:
           node-version: 16
       - run: npm install
       - run: npm start &
-      - uses: saucelabs/sauce-connect-action@c880cf68e158f7652c5351416968810533148b36
+      - uses: saucelabs/sauce-connect-action@19e7da586ec673bab89e84b00c557af69c5a5580
         with:
             username: ${{ secrets.SAUCE_USERNAME }}
             accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
