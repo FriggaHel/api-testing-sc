@@ -60,7 +60,7 @@ jobs:
 
       - name: Test Service
         run: |
-          curl -s -O - http://127.0.0.1:8080/data | jq
+          curl -s http://127.0.0.1:8080/data | jq
 
       - name: Saucectl RUN
         uses: saucelabs/saucectl-run-action@v1

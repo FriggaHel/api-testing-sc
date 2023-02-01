@@ -1,6 +1,5 @@
 ---
 region: 'eu-central'
 logfile: '/tmp/sc-mac.log'
-tunnel-identifier: 'frigga-sc-github-tunnel'
 vm-version: v2alpha
 readyfile: '/tmp/sc.ready'
