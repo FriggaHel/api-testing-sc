@@ -24,7 +24,7 @@ jobs:
         with:
             username: ${{ secrets.SAUCE_USERNAME }}
             accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-            tunnelName: sc-github-tunnel-${{ github.GITHUB_RUN_ID }}
+            tunnelName: sc-github-tunnel-${{ github.run_id }}
             configFile: ./sc.yml
             region: eu-central
 
@@ -40,7 +40,7 @@ jobs:
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-          tunnel-id: sc-github-tunnel-${{ github.GITHUB_RUN_ID }}
+          tunnel-id: sc-github-tunnel-${{ github.run_id }}
           select-suite: 'Local Suite #1'
 
   local-suite-without-sc-action:
