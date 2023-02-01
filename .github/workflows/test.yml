@@ -49,7 +49,7 @@ jobs:
         run: |
           curl https://saucelabs.com/downloads/sc-4.8.2-linux.tar.gz > /tmp/sc.tar.gz
           tar -xv --strip-components 2 -f /tmp/sc.tar.gz sc-4.8.2-linux/bin/sc
-          ./sc --region eu-central --vm-version v2alpha --readyfile /tmp/sc.ready --tunnel-name sc-github-frigga-${RANDOM} &
+          ./sc --region eu-central --vm-version v2alpha --readyfile /tmp/sc.ready --tunnel-name sc-github-frigga &
           while [ ! -f /tmp/sc.ready ]; do
             echo "Waiting for sauce-connect"
             sleep 5

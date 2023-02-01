@@ -2,6 +2,8 @@ apiVersion: v1alpha
 kind: apitest
 sauce:
   region: eu-central-1
+  tunnel:
+    name: sc-github-frigga
   metadata:
     build: "api-testing-sc"
 
