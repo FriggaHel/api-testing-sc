@@ -1,5 +1,0 @@
----
-region: 'eu-central'
-logfile: '/tmp/sc-mac.log'
-vm-version: v2alpha
-readyfile: '/tmp/sc.ready'

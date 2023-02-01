@@ -49,7 +49,7 @@ jobs:
         run: |
           curl https://saucelabs.com/downloads/sc-4.8.2-linux.tar.gz > /tmp/sc.tar.gz
           tar -xv --strip-components 2 -f /tmp/sc.tar.gz sc-4.8.2-linux/bin/sc
-          ./sc --config-file ./sc-config.yml --tunnel-name sc-github-frigga-${RANDOM} --vm-version v2alpha &
+          ./sc --region eu-central --readyfile /tmp/sc.ready --tunnel-name sc-github-frigga-${RANDOM} --vm-version v2alpha &
           while [ ! -f /tmp/sc.ready ]; do
             echo "Waiting for sauce-connect"
             sleep 5
@@ -66,7 +66,7 @@ jobs:
           sauce-username: ${{ secrets.SAUCE_USERNAME }}
           sauce-access-key: ${{ secrets.SAUCE_ACCESS_KEY }}
           select-suite: 'Local Suite #1'
-          tunnel-id: sc-local-gh
+          tunnel-id: ${{ env.SC_TUNNEL_NAME }}
 
       - name: Test Service
         run: |
