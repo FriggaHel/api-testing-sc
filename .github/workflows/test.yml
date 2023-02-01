@@ -49,7 +49,7 @@ jobs:
         run: |
           curl https://saucelabs.com/downloads/sc-4.8.2-linux.tar.gz > /tmp/sc.tar.gz
           tar -xv --strip-components 2 -f /tmp/sc.tar.gz sc-4.8.2-linux/bin/sc
-          ./sc --region eu-central --vm-version v2alpha --readyfile /tmp/sc.ready --tunnel-name sc-github-frigga &
+          ./sc --region eu-central --vm-version v2alpha --readyfile /tmp/sc.ready --tunnel-name sc-github-frigga-${RANDOM} &
           while [ ! -f /tmp/sc.ready ]; do
             echo "Waiting for sauce-connect"
             sleep 5
@@ -57,6 +57,12 @@ jobs:
           export TUNNEL_NAME=`jq < /tmp/sc.ready -r .tunnelName`
           echo "Using TunnelName ${TUNNEL_NAME}"
           echo "SC_TUNNEL_NAME=${TUNNEL_NAME}" >> $GITHUB_ENV
+
+
+      - name: Await
+        run: |
+          sleep 60
+
 
       - name: Saucectl RUN
         uses: saucelabs/saucectl-run-action@v1
