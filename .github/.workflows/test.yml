@@ -1,0 +1,37 @@
+name: saucectl + SC
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+env:
+  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+
+jobs:
+  local-suite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npx ts-node src/index.ts &
+      - uses: saucelabs/sauce-connect-action@v2
+        with:
+            username: ${{ secrets.SAUCE_USERNAME }}
+            accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+            tunnelName: frigga-sc-github-tunnel
+            configFile: ${{ github.workspace }}/sc-config.yaml
+
+      - name: Saucectl RUN
+        uses: saucelabs/saucectl-run-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          select-suite: 'Local Suite #1'
