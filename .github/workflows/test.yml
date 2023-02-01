@@ -78,7 +78,7 @@ jobs:
       - name: Stop SC
         run: |
           kill -INT ${{ env.SC_PID }}
-          while [ -f /proc/${{SC_PID}}/status ];do
+          while [ -f /proc/${{ env.SC_PID }}/status ];do
             echo "Waiting for sc to finish"
             sleep 5
           done
