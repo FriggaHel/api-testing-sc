@@ -24,7 +24,7 @@ jobs:
         with:
             username: ${{ secrets.SAUCE_USERNAME }}
             accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-            tunnelName: sc-github-tunnel-${{ vars.GITHUB_RUN_ID }}
+            tunnelName: sc-github-tunnel-${{ github.GITHUB_RUN_ID }}
             configFile: ./sc.yml
 
       ## For some reasons we need to wait for API Testing to be able to pick it up
@@ -39,7 +39,7 @@ jobs:
         with:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-          tunnel-id: ${{ vars.GITHUB_RUN_ID }}
+          tunnel-id: sc-github-tunnel-${{ github.GITHUB_RUN_ID }}
           select-suite: 'Local Suite #1'
 
   local-suite-without-sc-action:
