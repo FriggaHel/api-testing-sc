@@ -11,7 +11,7 @@ env:
   SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
 
 jobs:
-  local-suite:
+  local-suite-with-sc-action:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,3 +35,35 @@ jobs:
           username: ${{ secrets.SAUCE_USERNAME }}
           accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
           select-suite: 'Local Suite #1'
+
+  local-suite-without-sc-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npx ts-node src/index.ts &
+      - name: 'run sauce-connect'
+        run: |
+          curl https://saucelabs.com/downloads/sc-4.8.2-linux.tar.gz > /tmp/sc.tar.gz
+          tar -xv --strip-components 2 -f /tmp/sc.tar.gz sc-4.8.2-linux/bin/sc
+          ./sc --config-file ./sc-config.yml &
+          while [ ! -f /tmp/sc.ready ]; do
+            echo "Waiting for sauce-connect"
+            sleep 5
+          done
+          export TUNNEL_ID=`jq < sc.ready -r .tunnelID`
+          echo "Using TunnelID ${TUNNEL_ID}"
+          echo "SC_TUNNEL_ID=${TUNNEL_ID}" >> $GITHUB_ENV
+
+      - name: Saucectl RUN
+        uses: saucelabs/saucectl-run-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          select-suite: 'Local Suite #1'
+          tunnel-name: ${{ env.SC_TUNNEL_ID }}
