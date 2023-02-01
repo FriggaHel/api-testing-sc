@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 16
       - run: npm install
-      - run: npx ts-node src/index.ts &
+      - run: npm start &
       - uses: saucelabs/sauce-connect-action@c880cf68e158f7652c5351416968810533148b36
         with:
             username: ${{ secrets.SAUCE_USERNAME }}
@@ -51,12 +51,12 @@ jobs:
         with:
           node-version: 16
       - run: npm install
-      - run: npx ts-node src/index.ts &
+      - run: npm start &
       - name: 'run sauce-connect'
         run: |
           curl https://saucelabs.com/downloads/sc-4.8.2-linux.tar.gz > /tmp/sc.tar.gz
           tar -xv --strip-components 2 -f /tmp/sc.tar.gz sc-4.8.2-linux/bin/sc
-          ./sc --region eu-central --vm-version v2alpha --readyfile /tmp/sc.ready --pidfile /tmp/sc.pid --tunnel-name sc-github-frigga-${RANDOM} &
+          ./sc --region eu-central --config-file ./sc.yml --readyfile /tmp/sc.ready --pidfile /tmp/sc.pid --tunnel-name sc-github-frigga-${RANDOM} &
           while [ ! -f /tmp/sc.ready ]; do
             echo "Waiting for sauce-connect"
             sleep 5
