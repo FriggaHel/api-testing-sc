@@ -26,6 +26,7 @@ jobs:
             accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
             tunnelName: sc-github-tunnel-${{ github.GITHUB_RUN_ID }}
             configFile: ./sc.yml
+            region: eu-central
 
       ## For some reasons we need to wait for API Testing to be able to pick it up
       - name: Await
