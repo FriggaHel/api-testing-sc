@@ -66,7 +66,7 @@ jobs:
           sauce-username: ${{ secrets.SAUCE_USERNAME }}
           sauce-access-key: ${{ secrets.SAUCE_ACCESS_KEY }}
           select-suite: 'Local Suite #1'
-          tunnel-id: ${{ env.SC_TUNNEL_NAME }}
+          tunnel-id: sc-local-gh
 
       - name: Test Service
         run: |
