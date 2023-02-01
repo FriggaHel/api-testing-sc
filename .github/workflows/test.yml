@@ -27,6 +27,11 @@ jobs:
             tunnelName: sc-github-tunnel-${{ vars.GITHUB_RUN_ID }}
             configFile: ./sc.yml
 
+      ## For some reasons we need to wait for API Testing to be able to pick it up
+      - name: Await
+        run: |
+          sleep 30
+
       - name: Saucectl RUN
         uses: saucelabs/saucectl-run-action@v1
         env:
